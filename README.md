@@ -19,7 +19,7 @@ and insecure RAG implementations.
 ## Installation
 
 ```bash
-git clone https://github.com/sagebharath/github-ai-auditor
+git clone https://github.com/spbharath21/github-ai-auditor
 cd github-ai-auditor
 pip install -e .
 cp .env.example .env
