@@ -4,6 +4,8 @@ A CLI tool that scans GitHub repositories for **OWASP LLM Top 10** vulnerabiliti
 and AI/LLM security issues — hardcoded secrets, prompt injection, unsafe execution,
 and insecure RAG implementations.
 
+![Demo](assets/demo.gif)
+
 ## Features
 
 - Detects hardcoded API keys using regex + Shannon entropy analysis
