@@ -1,0 +1,37 @@
+name: AI Security Audit
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install auditor
+        run: pip install -e .
+
+      - name: Run AI security audit
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          aiaudit scan \
+            --repo ${{ github.repository }} \
+            --output audit-report.md
+
+      - name: Upload report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-security-report
+          path: audit-report.md

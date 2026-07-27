@@ -1,0 +1,38 @@
+# AI Security Audit Report
+
+**Repository:** {{ repo }}
+**Files Scanned:** {{ result.files_scanned }}
+**Security Score:** {{ result.score }}/100 — {{ result.risk_level }} Risk
+**Total Findings:** {{ result.total_findings }}
+
+---
+
+## Summary
+
+| Severity | Count |
+|----------|-------|
+| Critical | {{ result.findings_by_severity.critical }} |
+| High     | {{ result.findings_by_severity.high }} |
+| Medium   | {{ result.findings_by_severity.medium }} |
+| Low      | {{ result.findings_by_severity.low }} |
+
+---
+
+## OWASP LLM Top 10 Coverage
+
+{% for owasp_id, owasp_findings in result.owasp_coverage.items() | sort %}
+- **{{ owasp_id }}**: {{ owasp_findings | length }} finding(s)
+{% endfor %}
+
+---
+
+## Findings
+
+{% for f in result.findings %}
+### [{{ f.severity.value | upper }}] {{ f.message }}
+
+- **File:** `{{ f.file }}` (line {{ f.line }})
+- **Category:** {{ f.category }}
+{% if f.owasp_id %}- **OWASP:** {{ f.owasp_id }}{% endif %}
+{{ f.snippet }}
+{% endfor %}
