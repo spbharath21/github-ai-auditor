@@ -20,7 +20,8 @@ def main():
 @click.option("--repo", required=True, help="GitHub repo: owner/repo or full URL")
 @click.option("--output", default=None, help="Save markdown report to this file")
 @click.option("--verbose", is_flag=True, help="Show each file as it's fetched")
-def scan(repo: str, output: str | None, verbose: bool):
+@click.option("--max-files", default=0, help="Stop after scanning this many files (0 = no limit)")
+def scan(repo: str, output: str | None, verbose: bool, max_files: int):
     """Scan a GitHub repository for AI/LLM security issues."""
 
     with Progress(
@@ -32,7 +33,7 @@ def scan(repo: str, output: str | None, verbose: bool):
         task = progress.add_task(f"Fetching files from {repo} ...", total=None)
 
         try:
-            files = collect_repository_files(repo)
+            files = collect_repository_files(repo, max_files=max_files)
         except Exception as e:
             console.print(f"[bold red]Error fetching repo:[/bold red] {e}")
             return

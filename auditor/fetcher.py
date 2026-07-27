@@ -38,7 +38,7 @@ def get_file_content(file) -> str | None:
         return None
 
 
-def collect_repository_files(repo_name: str) -> list[RepoFile]:
+def collect_repository_files(repo_name: str, max_files: int = 0) -> list[RepoFile]:
     token = os.getenv("GITHUB_TOKEN")
     if not token:
         raise RuntimeError("GITHUB_TOKEN not set. Check your .env file.")
@@ -70,6 +70,9 @@ def collect_repository_files(repo_name: str) -> list[RepoFile]:
         content = get_file_content(item)
         if content is None:
             continue
+
+        if max_files and len(repository_files) >= max_files:
+            break
 
         repository_files.append(
             RepoFile(path=item.path, content=content, size_bytes=item.size)
